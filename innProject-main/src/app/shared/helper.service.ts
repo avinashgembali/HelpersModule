@@ -17,7 +17,7 @@ export class HelperService {
 
   getHelpers(): Observable<ApiResponse<Helper[]>> {
     return this.http.get<ApiResponse<Helper[]>>(
-      'http://localhost:3000/api/helpers'
+      'https://helpers-module.vercel.app/api/helpers'
     );
   }
 
@@ -54,13 +54,13 @@ export class HelperService {
     }
 
     return this.http.post<ApiResponse<Helper>>(
-      'http://localhost:3000/api/helpers',
+      'https://helpers-module.vercel.app/api/helpers',
       formData
     );
   }
   getHelperById(id: number): Observable<ApiResponse<Helper>> {
     return this.http.get<ApiResponse<Helper>>(
-      `http://localhost:3000/api/helpers/${id}`
+      `https://helpers-module.vercel.app/api/helpers/${id}`
     );
   }
 
@@ -100,14 +100,14 @@ export class HelperService {
     }
 
     return this.http.put<ApiResponse<Helper>>(
-      `http://localhost:3000/api/helpers/${id}`,
+      `https://helpers-module.vercel.app/api/helpers/${id}`,
       formData
     );
   }
 
   deleteHelper(id: number): Observable<ApiResponse<any>> {
     return this.http.delete<ApiResponse<any>>(
-      `http://localhost:3000/api/helpers/${id}`
+      `https://helpers-module.vercel.app/api/helpers/${id}`
     );
   }
 }
