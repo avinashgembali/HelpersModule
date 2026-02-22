@@ -1,0 +1,32 @@
+.doc-upload {
+  width: 120px;
+  height: 120px;
+  border: 2px dotted #3f51b5;
+  background-color: #e8eaf6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+
+  button {
+    font-size: 28px;
+    font-weight: bold;
+    background: none;
+    border: none;
+    color: #3f51b5;
+    cursor: pointer;
+  }
+}
+
+.uploaded-indicator {
+  display: flex;
+  align-items: center;
+  color: red;
+  border-radius: 20px;
+  font-size: 14px;
+  mat-icon {
+    font-size: 40px;
+    height: 30px;
+    width: 45px;
+  }
+}

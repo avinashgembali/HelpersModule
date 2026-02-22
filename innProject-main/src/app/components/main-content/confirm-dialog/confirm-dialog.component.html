@@ -1,0 +1,19 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <mat-icon color="warn" class="warning-icon">warning</mat-icon>
+    <div class="dialog-text">
+      <h2>Delete {{ data.name }} ({{ data.role }})</h2>
+      <p class="subtitle">You can’t undo this action.</p>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div class="dialog-actions">
+    <button mat-button (click)="dialogRef.close(false)">Cancel</button>
+    <button mat-flat-button color="warn" (click)="dialogRef.close(true)">
+      <mat-icon>delete</mat-icon>
+      Delete
+    </button>
+  </div>
+</div>

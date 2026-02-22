@@ -1,0 +1,94 @@
+<!-- Selected User Details -->
+<div class="selected-user-wrapper">
+  <div class="selected-user-details">
+    <div class="header">
+      <div class="left">
+        <div
+          class="selected-img"
+          *ngIf="selectedHelper.imageUrl; else showInitials"
+        >
+          <img [src]="selectedHelper.imageUrl" alt="Profile Image" />
+        </div>
+
+        <ng-template #showInitials>
+          <div class="initials-img">
+            {{ getInitials(selectedHelper.name) }}
+          </div>
+        </ng-template>
+        <div>
+          <h2>{{ selectedHelper.name }}</h2>
+          <p>{{ selectedHelper.role }}</p>
+        </div>
+      </div>
+      <div class="right">
+        <button mat-icon-button (click)="editHelper()"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button color="warn" (click)="deleteHelper()">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h4>Employee ID</h4>
+
+      <div class="field">
+        <label>Identification Card</label>
+        <div class="view-button" (click)="openQr()">
+          <mat-icon>visibility</mat-icon> View
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Employee Code</label>
+        <div class="value">{{ selectedHelper.employeeCode }}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h4>Personal Details</h4>
+
+      <div class="field">
+        <label>Gender</label>
+        <div class="value">{{ selectedHelper.gender }}</div>
+      </div>
+
+      <div class="field">
+        <label>Languages</label>
+        <div class="value">{{ selectedHelper.languages.join(", ") }}</div>
+      </div>
+
+      <div class="field">
+        <label>Mobile</label>
+        <div class="value">{{ selectedHelper.mobileNo }}</div>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <div class="value">{{ selectedHelper.emailId || "-" }}</div>
+      </div>
+
+      <div class="field">
+        <label>KYC Document</label>
+        <div class="view-button"><mat-icon>visibility</mat-icon> View</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h4>Service Details</h4>
+
+      <div class="field">
+        <label>Type</label>
+        <div class="value">{{ selectedHelper.role }}</div>
+      </div>
+
+      <div class="field">
+        <label>Organization</label>
+        <div class="value">{{ selectedHelper.organization }}</div>
+      </div>
+
+      <div class="field">
+        <label>Joined On</label>
+        <div class="value">{{ selectedHelper.joinedOn }}</div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Additional Documents</h2>
+
+<div class="line"></div>
+
+<mat-dialog-content>
+  <label for="document">Enter Document Type</label>
+  <input type="text" [(ngModel)]="documentType" placeholder="enter the file name.." />
+
+  <p>Please ensure both sides of the document are uploaded</p>
+
+  <!-- Hidden file input -->
+  <input
+    type="file"
+    #fileInput
+    (change)="onFileSelected($event)"
+    style="display: none"
+  />
+
+  <!-- Upload Icon inside Dotted Box -->
+  <div class="upload-box" (click)="fileInput.click()">
+    <mat-icon>cloud_upload</mat-icon>
+    <span>Click to upload file</span>
+  </div>
+
+  <!-- Show selected file -->
+  <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-raised-button
+    color="accent"
+    [mat-dialog-close]="{ category: documentType, file: selectedFile }"
+    [disabled]="!documentType || !selectedFile"
+  >
+    Upload
+  </button>
+</mat-dialog-actions>

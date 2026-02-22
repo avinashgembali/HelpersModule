@@ -1,0 +1,88 @@
+:host {
+  display: block;
+  padding: 16px;
+}
+
+.line {
+  height: 1px;
+  background-color: #ccc;
+  margin: 12px 0 20px 0;
+  width: 100%;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  label {
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #555;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+
+    &:focus {
+      border-color: #3f51b5;
+    }
+  }
+
+  p {
+    font-size: 13px;
+    color: #777;
+    margin-top: -8px;
+  }
+
+  .upload-box {
+    border: 2px dotted #3f51b5;
+    background-color: #e8eaf6;
+    padding: 32px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-height: 160px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+      font-size: 40px;
+      color: #3f51b5;
+      height: 30px;
+      width : 45px;
+    }
+
+    span {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #3f51b5;
+      font-weight: 500;
+    }
+
+    &:hover {
+      background-color: #dedeff;
+    }
+  }
+
+  > span {
+    font-size: 14px;
+    color: #444;
+    word-break: break-all;
+  }
+}
+
+mat-dialog-actions {
+  margin-top: 20px;
+  button {
+    min-width: 80px;
+  }
+}

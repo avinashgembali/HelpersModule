@@ -1,0 +1,27 @@
+<h1>Additional Documents</h1>
+<p>Upload related documents.This step is optional.</p>
+
+<div class="doc-upload" (click)="openUploadDialog()">
+  <button>+</button>
+</div>
+<div
+  class="uploaded-indicator"
+  *ngIf="form.get('additionalDocument')?.value || fileexistname"
+>
+  <mat-icon>picture_as_pdf</mat-icon>
+  <span>
+    {{
+      form.get("additionalDocument")?.value?.fileName || fileexistname
+    }}
+    Uploaded
+  </span>
+</div>
+
+<button
+  (click)="removeDocument()"
+  mat-stroked-button
+  color="warn"
+  style="margin-top: 8px"
+>
+  Remove
+</button>

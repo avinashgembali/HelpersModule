@@ -1,0 +1,82 @@
+<div class="container">
+  <div class="top-bar">
+    <mat-icon class="back-arrow" [routerLink]="['']">chevron_left</mat-icon>
+    <span class="page-title">
+      {{ isEditMode ? "Edit Helper" : "Add Helper" }}
+    </span>
+  </div>
+
+  <div class="body">
+    <!-- Stepper Section -->
+    <div class="sidebarContainer">
+      <div class="sideBar">
+        <div class="stepper-wrapper">
+          <!-- Vertical Line -->
+          <div class="vertical-line">
+            <div
+              class="line-fill"
+              [style.height.%]="(currentStep / (steps.length - 1)) * 100"
+            ></div>
+          </div>
+
+          <!-- Dots + Labels -->
+          <div
+            class="step"
+            *ngFor="let step of steps; let i = index"
+            [class.active]="i === currentStep"
+            [class.completed]="i < currentStep"
+            [style.top.%]="(i / (steps.length - 1)) * 100"
+          >
+            <div class="dot"></div>
+            <div class="label">
+              <div class="title">{{ step.title }}</div>
+              <p>{{ step.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="formContainer">
+      <!-- Content Section -->
+      <div class="form-section">
+        <app-helper-details
+          *ngIf="currentStep === 0"
+          #helperDetails
+        ></app-helper-details>
+        <app-documents
+          *ngIf="currentStep === 1"
+          [fileexistname]="additionalDocumentFileName"
+          #documentDetails
+        ></app-documents>
+        <app-review
+          *ngIf="currentStep === 2"
+          [helperData]="helperFormData"
+          [documentData]="documentFormData"
+        ></app-review>
+      </div>
+      <div class="buttons">
+        <button class="btn" (click)="prevStep()" [disabled]="currentStep === 0">
+          Back
+        </button>
+
+        <button
+          class="btn"
+          *ngIf="isEditMode && currentStep === steps.length - 1"
+          (click)="submit()"
+        >
+          Submit
+        </button>
+
+        <!-- ✅ Otherwise, show Next -->
+        <button
+          class="btn"
+          *ngIf="!(isEditMode && currentStep === steps.length - 1)"
+          (click)="nextStep()"
+        >
+          {{ currentStep === steps.length - 1 ? "Submit" : "Next" }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

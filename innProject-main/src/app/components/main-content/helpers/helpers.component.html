@@ -1,0 +1,43 @@
+<div class="helpers-container">
+  <!-- Sidebar -->
+  <div class="profiles">
+    <div *ngIf="helpers?.length === 0" class="no-helpers-message">
+      No helpers found for the selected filters or they are empty
+    </div>
+    <div
+      *ngFor="let helper of helpers"
+      class="profile-card"
+      [class.active]="selectedHelper?.id === helper.id"
+      (click)="selectHelper(helper)"
+    >
+      <div class="profile-img-wrapper">
+        <ng-container *ngIf="helper.imageUrl; else showInitials">
+          <img
+            [src]="helper.imageUrl"
+            alt="{{ helper.name }}"
+            class="profile-img"
+          />
+        </ng-container>
+        <ng-template #showInitials>
+          <div class="profile-initials">
+            {{ getInitials(helper.name) }}
+          </div>
+        </ng-template>
+      </div>
+      <div class="profile-details">
+        <h3>{{ helper.name }}</h3>
+        <p>{{ helper.role }}</p>
+      </div>
+      <div class="households">{{ 0 }} households</div>
+    </div>
+  </div>
+  <div class="selectedContainer">
+    <div class="selectedHelper" *ngIf="selectedHelper">
+      <app-selected-helper
+        *ngIf="selectedHelper"
+        [selectedHelper]="selectedHelper"
+        (helperDeleted)="onHelperDeleted()"
+      ></app-selected-helper>
+    </div>
+  </div>
+</div>

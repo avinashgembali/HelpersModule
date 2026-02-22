@@ -1,0 +1,86 @@
+:host {
+  display: block;
+  padding: 16px;
+}
+
+.line {
+  height: 1px;
+  background-color: #ccc;
+  margin: 12px 0 20px 0;
+  width: 100%;
+}
+
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  label {
+    font-weight: 500;
+    margin-bottom: 4px;
+    color: #555;
+  }
+
+  p {
+    font-size: 13px;
+    color: #777;
+    margin-top: -8px;
+  }
+
+  .upload-box {
+    border: 2px dotted #3f51b5;
+    background-color: #e8eaf6;
+    padding: 32px 24px; // Add more vertical padding
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    min-height: 120px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+      font-size: 40px; // Reduced size
+      color: #3f51b5;
+      height: 30px;
+      width: 45px;
+      font-size: 3xl;
+    }
+
+    span {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #3f51b5;
+      font-weight: 500;
+    }
+
+    &:hover {
+      background-color: #dedeff;
+    }
+  }
+
+  span {
+    font-size: 14px;
+    color: #444;
+  }
+}
+
+mat-dialog-actions {
+  margin-top: 20px;
+  button {
+    min-width: 80px;
+  }
+}
+
+:host ::ng-deep .mat-mdc-form-field-infix {
+  padding-top: 12px !important;
+  padding-bottom: 12px !important;
+  min-height: unset !important; 
+}
+
+:host ::ng-deep .mat-mdc-select-trigger {
+  align-items: center !important;
+}

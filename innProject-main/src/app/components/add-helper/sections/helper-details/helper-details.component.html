@@ -1,0 +1,257 @@
+<h1>Helper Details</h1>
+<p>Track, Add & Manage all your helpers at one place</p>
+
+<form [formGroup]="form">
+  <!-- Upload Photo -->
+  <div (click)="fileInput.click()">
+    <!-- BEFORE Upload -->
+    <div class="upload" *ngIf="!selectedImageUrl">
+      <mat-icon>cloud_upload</mat-icon>
+      <button mat-button type="button">Upload Photo</button>
+    </div>
+
+    <!-- AFTER Upload -->
+    <div class="uploaded-image" *ngIf="selectedImageUrl">
+      <img [src]="selectedImageUrl" alt="Uploaded photo" />
+    </div>
+
+    <input
+      type="file"
+      #fileInput
+      accept=".png,.jpeg,.jpg"
+      hidden
+      (change)="onFileSelected($event)"
+    />
+  </div>
+
+  <button
+    mat-stroked-button
+    color="warn"
+    type="button"
+    style="margin-top: 8px; margin-bottom: 8px"
+    (click)="removePhoto()"
+  >
+    Remove Photo
+  </button>
+
+  <p>Upload Photo (.png, .jpeg) size 5mb</p>
+
+  <!-- Type of Service -->
+  <label for="service">Type of service <span>*</span></label>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-select
+      id="service"
+      formControlName="service"
+      placeholder="Type of service"
+    >
+      <mat-option *ngFor="let service of services" [value]="service.name">
+        <mat-icon class="option-icon">{{ service.icon }}</mat-icon>
+        {{ service.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-error
+    *ngIf="
+      form.get('service')?.hasError('required') && form.get('service')?.touched
+    "
+  >
+    Type of service is required
+  </mat-error>
+
+  <!-- Organization -->
+  <label for="organization">Organization Name <span>*</span></label>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-select
+      id="organization"
+      formControlName="organization"
+      placeholder="Organization Name"
+    >
+      <mat-option
+        *ngFor="let organization of organizations"
+        [value]="organization"
+      >
+        {{ organization }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-error
+    *ngIf="
+      form.get('organization')?.hasError('required') &&
+      form.get('organization')?.touched
+    "
+  >
+    Organization name is required
+  </mat-error>
+
+  <!-- Full Name -->
+  <label for="name">Full Name <span>*</span></label>
+  <input
+    type="text"
+    id="name"
+    formControlName="fullName"
+    placeholder="Full Name"
+    class="full-width"
+  />
+  <mat-error
+    *ngIf="
+      form.get('fullName')?.hasError('required') &&
+      form.get('fullName')?.touched
+    "
+  >
+    Full name is required
+  </mat-error>
+
+  <!-- Languages -->
+  <label for="languages">Languages <span>*</span></label>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-select
+      id="languages"
+      formControlName="languages"
+      multiple
+      placeholder="Select languages"
+    >
+      <mat-select-trigger>
+        {{ getSelectedLanguagesDisplay() }}
+      </mat-select-trigger>
+      <mat-checkbox
+        color="primary"
+        (click)="toggleSelectAll(); $event.stopPropagation()"
+        [checked]="isAllSelected()"
+      >
+        Select All
+      </mat-checkbox>
+      <mat-option *ngFor="let lang of languages" [value]="lang">
+        {{ lang }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-error
+    *ngIf="
+      form.get('languages')?.hasError('required') &&
+      form.get('languages')?.touched
+    "
+  >
+    At least one language must be selected
+  </mat-error>
+
+  <!-- Gender -->
+  <label for="gender">Gender <span>*</span></label>
+  <mat-radio-group formControlName="gender">
+    <mat-radio-button value="male" color="primary">Male</mat-radio-button>
+    <mat-radio-button value="female" color="primary">Female</mat-radio-button>
+    <mat-radio-button value="other" color="primary">Other</mat-radio-button>
+  </mat-radio-group>
+  <mat-error
+    *ngIf="
+      form.get('gender')?.hasError('required') && form.get('gender')?.touched
+    "
+  >
+    Gender is required
+  </mat-error>
+
+  <!-- Phone Number -->
+  <label for="phone">Phone Number <span>*</span></label>
+  <div class="phone-wrapper">
+    <div class="country-code">+91 <mat-icon>keyboard_arrow_down</mat-icon></div>
+    <input
+      type="text"
+      id="phone"
+      placeholder="Phone Number"
+      formControlName="phone"
+      class="phone-input"
+    />
+  </div>
+  <mat-error
+    *ngIf="
+      form.get('phone')?.hasError('required') && form.get('phone')?.touched
+    "
+  >
+    Phone number is required
+  </mat-error>
+
+  <mat-error
+    *ngIf="form.get('phone')?.hasError('pattern') && form.get('phone')?.touched"
+  >
+    Phone number must be exactly 10 digits
+  </mat-error>
+
+  <!-- Email -->
+  <label for="email">Email</label>
+  <input
+    type="email"
+    id="email"
+    placeholder="Email"
+    formControlName="email"
+    class="full-width"
+  />
+
+  <!-- Vehicle -->
+  <label for="vehicle">Choose vehicle type</label>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-select formControlName="vehicle" id="vehicle" placeholder="None">
+      <mat-option *ngFor="let vehicle of vehicles" [value]="vehicle">
+        {{ vehicle }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Vehicle Number (Conditional) -->
+  <div *ngIf="showVehicleField" style="margin-top: 16px">
+    <label for="vehicleNumber">Vehicle Number <span>*</span></label>
+    <div class="vehicle-wrapper">
+      <input
+        formControlName="vehicleNumber"
+        type="text"
+        id="vehicleNumber"
+        placeholder="Vehicle Number"
+      />
+    </div>
+  </div>
+
+  <mat-error
+    *ngIf="
+      form.get('vehicleNumber')?.hasError('required') &&
+      form.get('vehicleNumber')?.touched
+    "
+  >
+    Vehicle number is required
+  </mat-error>
+
+  <!-- KYC Upload -->
+  <label for="document">KYC Document <span>*</span></label>
+  <div class="kyc-upload" (click)="openUploadDialog()">
+    <button>+</button>
+  </div>
+  <div class="uploaded-indicator" *ngIf="form.get('kycDocument')?.value">
+    <mat-icon>picture_as_pdf</mat-icon>
+    <span>{{ form.get("kycDocument")?.value?.fileName }} Uploaded</span>
+  </div>
+  <div class="button-group">
+    <button
+      type="button"
+      mat-stroked-button
+      color="primary"
+      (click)="changeKycDocument()"
+    >
+      Change
+    </button>
+
+    <button
+      type="button"
+      mat-stroked-button
+      color="warn"
+      (click)="removeKycDocument()"
+    >
+      Remove
+    </button>
+  </div>
+
+  <mat-error
+    *ngIf="
+      form.get('kycDocument')?.hasError('required') &&
+      form.get('kycDocument')?.touched
+    "
+  >
+    KYC document is required
+  </mat-error>
+</form>

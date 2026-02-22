@@ -1,0 +1,55 @@
+.qr-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 600px;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.person-icon {
+  font-size: 40px;
+  margin-right: 10px;
+  color: #3f51b5;
+  height : 50px;
+  width : 50px;
+}
+
+.top-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.helper-name {
+  margin: 0;
+  font-size: 20px;
+}
+
+.helper-role {
+  margin: 0;
+  font-size: 14px;
+  color: #555;
+}
+
+.qr-body {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.left-side, .right-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.details {
+  margin-top: 10px;
+  text-align: left;
+  width: 100%;
+}

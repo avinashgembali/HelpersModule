@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Upload KYC Documents</h2>
+
+<div class="line"></div>
+
+<mat-dialog-content>
+  <label for="document">Select Document Type</label>
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>Document Type</mat-label>
+    <mat-select [(ngModel)]="selectedDocument">
+      <mat-option value="aadhar">Aadhaar Card</mat-option>
+      <mat-option value="pancard">PAN Card</mat-option>
+      <mat-option value="voterid">Voter ID</mat-option>
+      <mat-option value="passport">Passport</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p>Please ensure both sides of the document are uploaded</p>
+
+  <!-- Hidden file input -->
+  <input
+    type="file"
+    #fileInput
+    accept=".pdf"
+    (change)="onFileSelected($event)"
+    style="display: none"
+  />
+
+  <!-- Upload Icon inside Dotted Box -->
+  <div class="upload-box" (click)="fileInput.click()">
+    <mat-icon>cloud_upload</mat-icon>
+    <span>Click to upload file</span>
+  </div>
+
+  <!-- Show selected file -->
+  <span *ngIf="selectedFile">{{ selectedFile.name }}</span>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button
+    mat-raised-button
+    color="accent"
+    [mat-dialog-close]="{ category: selectedDocument, file: selectedFile }"
+    [disabled]="!selectedDocument || !selectedFile"
+  >
+    Upload
+  </button>
+</mat-dialog-actions>

@@ -1,0 +1,55 @@
+.dialog-container {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 100%;
+
+  .dialog-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+
+    .warning-icon {
+      font-size: 36px;
+      margin-top: 4px;
+      height : 30px;
+      width: 50px;
+    }
+
+    .dialog-text {
+      h2 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .subtitle {
+        margin: 4px 0 0;
+        font-size: 14px;
+        color: #666;
+      }
+    }
+  }
+
+  mat-divider {
+    margin: 0 -16px;
+  }
+
+  .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 8px;
+
+    button {
+      display: flex;
+      gap: 1px;
+
+      mat-icon {
+        font-size: 20px;
+        margin-bottom: 3px;
+      }
+    }
+  }
+}

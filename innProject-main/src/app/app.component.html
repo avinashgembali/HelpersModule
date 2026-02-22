@@ -1,0 +1,14 @@
+<mat-progress-bar
+  *ngIf="loading"
+  mode="indeterminate"
+  color="primary"
+></mat-progress-bar>
+<div class="layout-container">
+  <aside class="sidebar">
+    <app-sidebar></app-sidebar>
+  </aside>
+
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

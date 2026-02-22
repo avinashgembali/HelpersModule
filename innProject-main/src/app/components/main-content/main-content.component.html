@@ -1,0 +1,177 @@
+<h1>Helpers</h1>
+<div class="line"></div>
+
+<div class="content">
+  <div class="functions">
+    <div class="left">
+      <button
+        class="icon-btn sort"
+        matbutton
+        [matMenuTriggerFor]="menu"
+        title="Sort"
+      >
+        <mat-icon>unfold_more</mat-icon>
+      </button>
+
+      <mat-menu #menu="matMenu" class="sort-menu">
+        <h3 class="sort-title">Sort by</h3>
+
+        <button
+          mat-menu-item
+          (click)="sortByName()"
+          [class.selected]="selectedSort === 'name'"
+        >
+          <span class="menu-label"
+            >Helpers Name (A-Z)
+            <mat-icon *ngIf="selectedSort === 'name'" class="check-icon"
+              >check</mat-icon
+            >
+          </span>
+        </button>
+
+        <button
+          mat-menu-item
+          (click)="sortByID()"
+          [class.selected]="selectedSort === 'id'"
+        >
+          <span class="menu-label"
+            >Employee ID
+            <mat-icon *ngIf="selectedSort === 'id'" class="check-icon"
+              >check</mat-icon
+            >
+          </span>
+        </button>
+      </mat-menu>
+
+      <button
+        class="icon-btn filter"
+        [matMenuTriggerFor]="filterMenu"
+        title="Filter"
+      >
+        <mat-icon>filter_list</mat-icon>
+      </button>
+
+      <mat-menu
+        #filterMenu="matMenu"
+        class="filter-menu"
+        [overlapTrigger]="false"
+      >
+        <div
+          matMenuContent
+          class="filter-menu"
+          class="filter-content"
+          (click)="$event.stopPropagation()"
+        >
+          <h3 class="filter-title">Filter By</h3>
+
+          <div class="filter-header">
+            <span class="filter-label">Service</span>
+            <button
+              mat-button
+              color="warn"
+              class="reset-btn"
+              (click)="selectedServices = []"
+            >
+              Reset
+            </button>
+          </div>
+
+          <!-- Service Filter -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Select Service</mat-label>
+            <mat-select multiple [(value)]="selectedServices">
+              <mat-select-trigger>
+                {{ getSelectedServicesDisplay() }}
+              </mat-select-trigger>
+
+              <mat-checkbox
+                color="primary"
+                (click)="toggleSelectAllServices(); $event.stopPropagation()"
+                [checked]="isAllServicesSelected()"
+              >
+                Select All
+              </mat-checkbox>
+
+              <mat-option *ngFor="let service of services" [value]="service">
+                {{ service }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="filter-header">
+            <span class="filter-label">Organization</span>
+            <button
+              mat-button
+              color="warn"
+              class="reset-btn"
+              (click)="selectedOrganizations = []"
+            >
+              Reset
+            </button>
+          </div>
+          <!-- Organization Filter -->
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Select Organization</mat-label>
+            <mat-select multiple [(value)]="selectedOrganizations">
+              <mat-select-trigger>
+                {{ getSelectedOrganizationsDisplay() }}
+              </mat-select-trigger>
+              <mat-checkbox
+                color="primary"
+                (click)="toggleSelectAllOrganizations(); $event.stopPropagation()"
+                [checked]="isAllOrganizationsSelected()"
+              >
+                Select All
+              </mat-checkbox>
+
+              <mat-option *ngFor="let org of organizations" [value]="org">
+                {{ org }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- Action Buttons -->
+        <div class="filter-actions">
+          <button mat-button (click)="resetFilters()">Reset</button>
+          <button mat-flat-button color="primary" (click)="applyFilters()">
+            Apply
+          </button>
+        </div>
+      </mat-menu>
+
+      <button class="icon-btn calendar" title="Calendar">
+        <mat-icon>calendar_today</mat-icon>
+      </button>
+
+      <div class="search-wrapper">
+        <mat-icon class="search-icon">search</mat-icon>
+        <input
+          type="text"
+          placeholder="Search by name, ID or phone"
+          [(ngModel)]="searchText"
+          (input)="filterHelpers()"
+        />
+      </div>
+
+      <div class="users" *ngIf="isFilterApplied(); else elseBlock">
+        {{ helpers.length }} of {{ allHelpers.length }} helpers
+      </div>
+
+      <ng-template #elseBlock> {{ allHelpers.length }} helpers </ng-template>
+    </div>
+
+    <div class="right">
+      <button class="icon-btn download" title="Download">
+        <mat-icon>download</mat-icon>
+      </button>
+
+      <button class="add-helper" [routerLink]="['/helpers/add']">
+        <mat-icon>add</mat-icon> Add Helper
+      </button>
+    </div>
+  </div>
+  <app-helpers
+    [helpers]="helpers"
+    [selectedHelper]="selectedHelper"
+  ></app-helpers>
+</div>

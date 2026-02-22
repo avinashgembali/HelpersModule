@@ -1,0 +1,15 @@
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;   // Vertical center
+  align-items: center;       // Horizontal center
+  text-align: center;
+  height: 100%;
+  padding: 20px;
+}
+.success-icon {
+  font-size: 60px;
+  height: 60px;
+  width: 60px;
+  color: green;
+}

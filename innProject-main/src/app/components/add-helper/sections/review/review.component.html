@@ -1,0 +1,74 @@
+<!-- Selected User Details -->
+<div class="review-wrapper">
+  <div class="review-details">
+    <div class="header">
+      <div class="left">
+        <ng-container *ngIf="helper.photoPreview; else initialsAvatar">
+          <img
+            [src]="helper.photoPreview"
+            alt="Photo preview"
+            class="selected-img"
+          />
+        </ng-container>
+
+        <ng-template #initialsAvatar>
+          <div class="selected-img initials-avatar">
+            {{ getInitials(helper.name) }}
+          </div>
+        </ng-template>
+        <div>
+          <h2>{{ helper.name }}</h2>
+          <p>{{ helper.role }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h4>Personal Details</h4>
+
+      <div class="field">
+        <label>Gender</label>
+        <div class="value">{{ helper.gender }}</div>
+      </div>
+
+      <div class="field">
+        <label>Languages</label>
+        <div class="value">{{ helper.languages?.join(", ") }}</div>
+      </div>
+
+      <div class="field">
+        <label>Mobile</label>
+        <div class="value">{{ helper.mobileNo }}</div>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <div class="value">{{ helper.emailId || "-" }}</div>
+      </div>
+
+      <div class="field">
+        <label>KYC Document</label>
+        <div class="view-button"><mat-icon>visibility</mat-icon> View</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h4>Service Details</h4>
+
+      <div class="field">
+        <label>Type</label>
+        <div class="value">{{ helper.role }}</div>
+      </div>
+
+      <div class="field">
+        <label>Organization</label>
+        <div class="value">{{ helper.organization }}</div>
+      </div>
+
+      <div class="field">
+        <label>Joined On</label>
+        <div class="value">{{ helper.joinedOn }}</div>
+      </div>
+    </div>
+  </div>
+</div>
