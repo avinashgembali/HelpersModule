@@ -1,4 +1,12 @@
 <div class="search-box">
-  <span class="search-icon">🔍</span>
-  <input type="text" placeholder="Search" />
+  <mat-icon class="search-icon">search</mat-icon>
+  <input
+    type="text"
+    placeholder="Search menu..."
+    [(ngModel)]="query"
+    (input)="onSearch()"
+  />
+  <button *ngIf="query" class="clear-btn" (click)="clearSearch()">
+    <mat-icon>close</mat-icon>
+  </button>
 </div>

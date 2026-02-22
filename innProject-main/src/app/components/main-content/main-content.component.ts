@@ -15,6 +15,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { Location } from '@angular/common';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-main-content',
@@ -32,6 +34,8 @@ import { Location } from '@angular/common';
     MatCheckboxModule,
     MatPseudoCheckboxModule,
     FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   templateUrl: './main-content.component.html',
   styleUrl: './main-content.component.scss',
@@ -46,6 +50,8 @@ export class MainContentComponent implements OnInit {
   selectedServices: string[] = [];
   selectedOrganizations: string[] = [];
   allHelpers: Helper[] = []; // unfiltered master list
+  selectedDate: Date | null = null;
+
 
   constructor(
     private helperService: HelperService,
@@ -159,20 +165,33 @@ export class MainContentComponent implements OnInit {
   // Unified filter/search logic
   private updateHelpersList() {
     const text = this.searchText.trim().toLowerCase();
+
     this.helpers = this.allHelpers.filter((helper) => {
       const matchesService =
         this.selectedServices.length === 0 ||
         this.selectedServices.includes(helper.role);
+
       const matchesOrg =
         this.selectedOrganizations.length === 0 ||
         this.selectedOrganizations.includes(helper.organization);
+
       const matchesSearch =
         !text ||
         helper.id.toString().includes(text) ||
         helper.name.toLowerCase().includes(text) ||
         helper.mobileNo.toLowerCase().includes(text);
 
-      return matchesService && matchesOrg && matchesSearch;
+      const matchesDate = !this.selectedDate || (() => {
+        const helperDate = new Date(helper.joinedOn);
+        const selected = this.selectedDate!;
+        return (
+          helperDate.getFullYear() === selected.getFullYear() &&
+          helperDate.getMonth() === selected.getMonth() &&
+          helperDate.getDate() === selected.getDate()
+        );
+      })();
+
+      return matchesService && matchesOrg && matchesSearch && matchesDate;
     });
 
     if (this.helpers.length === 0) {
@@ -193,4 +212,15 @@ export class MainContentComponent implements OnInit {
       text.length > 0
     );
   }
+
+  onDateSelected(event: any) {
+    this.selectedDate = event.value;
+    this.updateHelpersList();
+  }
+
+  clearDateFilter() {
+    this.selectedDate = null;
+    this.updateHelpersList();
+  }
+
 }

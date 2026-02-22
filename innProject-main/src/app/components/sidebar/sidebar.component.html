@@ -1,158 +1,74 @@
-<div class="sidebar-container">
-  <div class="header">
-    <mat-icon class="home-icon">home</mat-icon>
-    <div class="text-group">
-     <span class="title">Manage</span>
-     <span class="subtitle">by ASBL Homes</span>
-    </div>
-  </div>
-  <app-search></app-search>
-  <div class="sidebar-scrollable">
-    <!-- Sidebar content here like menu items -->
-    <!-- RESIDENT MANAGEMENT -->
-    <mat-nav-list>
-      <mat-list-item (click)="toggleMenu('resident')">
-        <div class="menu-header">
-          <mat-icon [class.rotated]="!openStates['resident']" class="arrow-icon"
-            >expand_more</mat-icon
-          >
-          <span class="menu-label">RESIDENT MANAGEMENT</span>
-        </div>
-      </mat-list-item>
-      <div *ngIf="!openStates['resident']" class="submenu">
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">home</mat-icon>
-            <span>Flats</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">build</mat-icon>
-            <span>Helpdesk Setup</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">report</mat-icon>
-            <span>Helpdesk Tickets</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">construction</mat-icon>
-            <span>Renovation Works</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">error</mat-icon>
-            <span>Violation Setup</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">sports_soccer</mat-icon>
-            <span>Amenities</span>
-          </div>
-        </mat-list-item>
-      </div>
-    </mat-nav-list>
+<div class="sidebar-container" [class.collapsed]="isCollapsed">
+  <!-- Toggle button for mobile -->
+  <button class="collapse-toggle" (click)="isCollapsed = !isCollapsed">
+    <mat-icon>{{ isCollapsed ? 'menu' : 'close' }}</mat-icon>
+  </button>
 
-    <!-- STAFF MANAGEMENT -->
-    <mat-nav-list>
-      <mat-list-item (click)="toggleMenu('staff')">
-        <div class="menu-header">
-          <mat-icon [class.rotated]="!openStates['staff']" class="arrow-icon"
-            >expand_more</mat-icon
-          >
-          <span class="menu-label">STAFF MANAGEMENT</span>
-        </div>
-      </mat-list-item>
-      <div *ngIf="!openStates['staff']" class="submenu">
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">badge</mat-icon>
-            <span>Roles & Departments</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">group</mat-icon>
-            <span>Staff Directory</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item
-          [routerLink]="['/helpers']"
-          routerLinkActive="active-link"
-          [routerLinkActiveOptions]="{ exact: false }"
-        >
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">person</mat-icon>
-            <span>Helpers</span>
-          </div>
-        </mat-list-item>
+  <div class="sidebar-inner">
+    <!-- HEADER -->
+    <div class="header">
+      <mat-icon class="home-icon">home</mat-icon>
+      <div class="text-group">
+        <span class="title">Manage</span>
+        <span class="subtitle">by ASBL Homes</span>
       </div>
-    </mat-nav-list>
+    </div>
 
-    <!-- WORK MANAGEMENT -->
-    <mat-nav-list>
-      <mat-list-item (click)="toggleMenu('work')">
-        <div class="menu-header">
-          <mat-icon [class.rotated]="!openStates['work']" class="arrow-icon"
-            >expand_more</mat-icon
-          >
-          <span class="menu-label">WORK MANAGEMENT</span>
-        </div>
-      </mat-list-item>
-      <div *ngIf="!openStates['work']" class="submenu">
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">build_circle</mat-icon>
-            <span>Assets</span>
+    <!-- SEARCH -->
+    <app-search></app-search>
+
+    <!-- MENU -->
+    <div class="sidebar-scrollable">
+
+      <mat-nav-list *ngFor="let group of menuGroups">
+        <!-- Hide entire group if no matches during search -->
+        <ng-container *ngIf="isGroupVisible(group)">
+          <mat-list-item (click)="toggleMenu(group.key)">
+            <div class="menu-header">
+              <mat-icon
+                [class.rotated]="!openStates[group.key]"
+                class="arrow-icon"
+              >expand_more</mat-icon>
+              <span class="menu-label">{{ group.title }}</span>
+            </div>
+          </mat-list-item>
+
+          <div *ngIf="!openStates[group.key]" class="submenu">
+            <ng-container *ngFor="let item of getFilteredItems(group)">
+              <mat-list-item
+                [routerLink]="item.route !== '#' ? [item.route] : null"
+                routerLinkActive="active-link"
+                [routerLinkActiveOptions]="{ exact: false }"
+                (click)="navigate(item)"
+              >
+                <div class="submenu-item">
+                  <mat-icon class="submenu-icon">{{ item.icon }}</mat-icon>
+                  <span [innerHTML]="highlight(item.label)"></span>
+                </div>
+              </mat-list-item>
+            </ng-container>
           </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">place</mat-icon>
-            <span>Locations</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">layers</mat-icon>
-            <span>Work Packages</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">event</mat-icon>
-            <span>Work Scheduler</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">history</mat-icon>
-            <span>Work Logs</span>
-          </div>
-        </mat-list-item>
-        <mat-list-item routerLink="#">
-          <div class="submenu-item">
-            <mat-icon class="submenu-icon">report_problem</mat-icon>
-            <span>Issues</span>
-          </div>
-        </mat-list-item>
+        </ng-container>
+      </mat-nav-list>
+
+      <!-- No results -->
+      <div *ngIf="hasNoResults" class="no-results">
+        <mat-icon>search_off</mat-icon>
+        <p>No results for "{{ searchQuery }}"</p>
       </div>
-    </mat-nav-list>
-  </div>
-  <div class="sidebar-user">
-    <div class="left">
-      <div class="logo">US</div>
+
     </div>
-    <div class="right">
-      <h2>User</h2>
-      <p>ASBL Springs</p>
+
+    <!-- USER -->
+    <div class="sidebar-user">
+      <div class="left">
+        <div class="logo">US</div>
+      </div>
+      <div class="right">
+        <h2>User</h2>
+        <p>ASBL Springs</p>
+      </div>
+      <div class="arrow">&gt;</div>
     </div>
-    <div class="arrow">&gt;</div>
   </div>
 </div>

@@ -5,6 +5,7 @@ import { RedirectToFirstIdComponent } from './redirect-to-first-id/redirect-to-f
 
 export const routes: Routes = [
   { path: '', component: RedirectToFirstIdComponent},
+  { path: 'helpers', component: RedirectToFirstIdComponent },
   { path: 'helpers/add', component: AddHelperComponent },
   { path: 'helpers/edit/:id', component: AddHelperComponent },
   { path: 'helpers/:id', component: MainContentComponent },

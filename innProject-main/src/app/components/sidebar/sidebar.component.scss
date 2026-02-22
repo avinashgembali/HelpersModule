@@ -1,57 +1,157 @@
+// ─── Variables ───────────────────────────────────────────────────
+$sidebar-width: 260px;
+$sidebar-collapsed-width: 0px;
+$primary: #3f51b5;
+$accent: #00796b;
+$bg: #fafafa;
+$border: #e0e0e0;
+
+// ─── Mobile toggle button (only visible on small screens) ─────────
+.collapse-toggle {
+  display: none;
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1100;
+  background: $primary;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+
+  mat-icon {
+    font-size: 20px;
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+}
+
+// ─── Container ────────────────────────────────────────────────────
 .sidebar-container {
-  display: flex;
-  flex-direction: column;
+  width: $sidebar-width;
+  min-width: $sidebar-width;
   height: 100vh;
-  background-color: #fafafa;
-  padding: 8px;
-}
-
-.sidebar-scrollable {
-  overflow-y: auto;
-  padding-right: 8px;
-  flex: 1;
+  background-color: $bg;
+  border-right: 1px solid $border;
   display: flex;
   flex-direction: column;
+  transition: width 0.3s ease, min-width 0.3s ease, transform 0.3s ease;
+  position: relative;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+    transform: translateX(0);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    width: $sidebar-width !important;
+    min-width: $sidebar-width !important;
+
+    &.collapsed {
+      transform: translateX(-100%);
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    width: 220px;
+    min-width: 220px;
+  }
 }
 
+// ─── Inner wrapper ────────────────────────────────────────────────
+.sidebar-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+// ─── Header ───────────────────────────────────────────────────────
 .header {
   display: flex;
   align-items: center;
+  padding: 8px 4px 4px;
+  flex-shrink: 0;
 }
 
-.home-icon{
-  font-size: 50px;
-  color: #333;
+.home-icon {
+  font-size: 42px;
+  color: $primary;
   height: auto;
   width: auto;
+  flex-shrink: 0;
+
+  @media (max-width: 1024px) {
+    font-size: 34px;
+  }
 }
 
 .text-group {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin-left: 8px;
 
   .title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
-    margin-top: 25px;
+    color: #222;
+    line-height: 1.2;
+
+    @media (max-width: 1024px) {
+      font-size: 16px;
+    }
   }
 
   .subtitle {
-    font-size: 8px;
-    color: #777;
-    margin-bottom: 15px;
+    font-size: 10px;
+    color: #999;
   }
 }
 
+// ─── Scrollable menu area ─────────────────────────────────────────
+.sidebar-scrollable {
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-right: 4px;
 
+  // Thin scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: #ddd transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 4px;
+  }
+}
+
+// ─── Menu headers ─────────────────────────────────────────────────
 .arrow-icon {
-  transition: transform 0.2s ease-in-out;
+  transition: transform 0.25s ease;
   cursor: pointer;
   margin-right: 6px;
+  font-size: 20px;
 
   &.rotated {
-    transform: rotate(180deg);
+    transform: rotate(-90deg);
   }
 }
 
@@ -62,97 +162,172 @@
 }
 
 .menu-label {
-  color: #777;
-  font-size: 14px;
-  font-weight: 600;
+  color: #888;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+// ─── Submenu ──────────────────────────────────────────────────────
 .submenu {
-  padding-left: 20px;
+  padding-left: 16px;
 
   mat-list-item {
+    border-radius: 8px;
+    margin-bottom: 2px;
+    cursor: pointer;
+    transition: background 0.15s;
+
+    &:hover {
+      background-color: #f0f0f0;
+    }
+
     .submenu-item {
       display: flex;
       align-items: center;
       font-size: 13px;
       color: #333;
-      font-weight: bold; // make text bold
+      font-weight: 600;
+      width: 100%;
 
       .submenu-icon {
-        font-size: 20px;
-        margin-right: 8px;
-        color: #333;
-        font-weight: bold; // make icon bold
+        font-size: 18px;
+        margin-right: 10px;
+        color: #555;
+        flex-shrink: 0;
+        margin-top: 6px;
       }
 
       span {
         vertical-align: middle;
-        font-weight: bold; // ensure text is bold
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      mark {
+        background-color: #fff176;
+        color: #333;
+        border-radius: 2px;
+        padding: 0 1px;
       }
     }
   }
 }
 
+// ─── No results ───────────────────────────────────────────────────
+.no-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 16px;
+  color: #aaa;
+  gap: 8px;
+
+  mat-icon {
+    font-size: 36px;
+    width: 36px;
+    height: 36px;
+    color: #ccc;
+  }
+
+  p {
+    font-size: 13px;
+    text-align: center;
+    margin: 0;
+  }
+}
+
+// ─── Active link ──────────────────────────────────────────────────
+.active-link {
+  background-color: #e8f5e9 !important;
+  border-radius: 8px;
+
+  .submenu-item {
+    color: $accent !important;
+
+    .submenu-icon {
+      color: $accent !important;
+    }
+  }
+}
+
+// ─── Bottom user bar ──────────────────────────────────────────────
 .sidebar-user {
-  margin-top: auto; // Pushes this div to the bottom of column
+  flex-shrink: 0;
   display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: 12px 8px;
   background-color: #f5f5f5;
-  margin-bottom: 15px;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid $border;
+  border-radius: 8px;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  &:hover {
+    background-color: #eeeeee;
+  }
 
   .left {
     .logo {
-      width: 40px;
-      height: 40px;
-      background-color: #3f51b5;
+      width: 36px;
+      height: 36px;
+      background-color: $primary;
       color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 16px;
-      margin-right: 12px;
+      font-size: 14px;
+      margin-right: 10px;
+      flex-shrink: 0;
     }
   }
 
   .right {
     flex: 1;
+    overflow: hidden;
 
     h2 {
       margin: 0;
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: #333;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     p {
       margin: 0;
-      font-size: 12px;
-      color: #777;
+      font-size: 11px;
+      color: #888;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
   .arrow {
-    font-size: 16px;
-    color: #999;
-    margin-left: auto;
+    font-size: 14px;
+    color: #bbb;
+    margin-left: 8px;
+    flex-shrink: 0;
   }
 }
 
-.active-link {
-  background-color: #e0f7fa !important; 
-  font-weight: 600;
-  color: #00796b;
-
-  .submenu-icon {
-    color: #00796b;
-  }
-}
-
+// ─── Angular Material overrides ───────────────────────────────────
 ::ng-deep .mdc-list {
+  padding: 0 !important;
+}
+
+::ng-deep mat-nav-list {
   padding: 0 !important;
 }
