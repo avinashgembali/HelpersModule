@@ -54,7 +54,7 @@ export class HelperController {
       if (req.file) {
         try {
           helper.imageUrl = await this.fileService.uploadToCloudinary(
-            req.file.path,
+            req.file.buffer,
             "helpers"
           );
         } catch (error: any) {
@@ -142,7 +142,7 @@ export class HelperController {
       if (req.file) {
         try {
           updatedData.imageUrl = await this.fileService.uploadToCloudinary(
-            req.file.path,
+            req.file.buffer,
             "helpers"
           );
         } catch (error: any) {

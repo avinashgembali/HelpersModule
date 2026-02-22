@@ -8,7 +8,7 @@ import { parseFormData } from '../middlewares/errorHandler';
 
 
 const router = express.Router();
-const upload = multer({ dest: path.join(__dirname, '../uploads') });
+const upload = multer({storage: multer.memoryStorage() });
 const helperController = new HelperController();
 
 router.get('/helpers', helperController.getHelpers);

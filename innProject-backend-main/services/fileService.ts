@@ -1,5 +1,4 @@
 import { v2 as cloudinary } from 'cloudinary';
-import fs from 'fs';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -11,13 +10,23 @@ cloudinary.config({
 });
 
 export class FileService {
-  async uploadToCloudinary(filePath: string, folder: string) {
-    try {
-      const result = await cloudinary.uploader.upload(filePath, { folder });
-      fs.unlinkSync(filePath); // remove temp file
-      return result.secure_url;
-    } catch (error) {
-      throw new Error(`Cloudinary upload failed: ${error}`);
-    }
+
+  async uploadToCloudinary(
+    fileBuffer: Buffer,
+    folder: string
+  ): Promise<string> {
+
+    return new Promise((resolve, reject) => {
+
+      const stream = cloudinary.uploader.upload_stream(
+        { folder },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result?.secure_url || '');
+        }
+      );
+
+      stream.end(fileBuffer);
+    });
   }
 }
